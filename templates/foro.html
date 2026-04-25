@@ -1,0 +1,37 @@
+<div class="foro-container">
+    <div class="mb-6 flex justify-between items-center">
+        <h2 class="text-xl font-bold">💬 Foro Comunitario</h2>
+        <button onclick="mostrarFormularioPost()" class="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg">
+            + Nueva publicación
+        </button>
+    </div>
+    
+    <div id="listaPosts" class="space-y-4">
+        <!-- Los posts se cargan dinámicamente -->
+        <div class="text-center text-gray-400">Cargando publicaciones...</div>
+    </div>
+</div>
+
+<!-- Modal para crear publicación -->
+<div id="modalPost" class="modal" style="display:none">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModalPost()">✖</span>
+        <h3 class="text-xl font-bold mb-4">Nueva publicación</h3>
+        <input type="text" id="postTitulo" placeholder="Título" class="w-full p-2 mb-3 rounded bg-gray-700 border border-gray-600">
+        <textarea id="postContenido" placeholder="Escribe tu análisis o pregunta..." rows="5" class="w-full p-2 mb-3 rounded bg-gray-700 border border-gray-600"></textarea>
+        <button onclick="crearPost()" class="bg-teal-600 hover:bg-teal-700 w-full py-2 rounded">Publicar</button>
+    </div>
+</div>
+
+<!-- Modal para ver/comentar post -->
+<div id="modalPostDetail" class="modal" style="display:none">
+    <div class="modal-content max-w-2xl">
+        <span class="close" onclick="cerrarModalPostDetail()">✖</span>
+        <div id="postDetailContent"></div>
+        <div class="mt-4">
+            <textarea id="comentarioContenido" placeholder="Escribe un comentario..." rows="3" class="w-full p-2 rounded bg-gray-700 border border-gray-600"></textarea>
+            <button onclick="agregarComentario()" class="bg-teal-600 hover:bg-teal-700 mt-2 px-4 py-2 rounded">Comentar</button>
+        </div>
+        <div id="comentariosList" class="mt-4 space-y-3"></div>
+    </div>
+</div>

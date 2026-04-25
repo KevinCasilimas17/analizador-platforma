@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador IA | Foro Político</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- Pantalla de autenticación -->
+    <div id="authScreen" class="auth-container">
+        <div class="container" id="container">
+            <!-- Formulario Iniciar Sesión -->
+            <div class="container-form">
+                <form class="sign-in" id="loginFormElement">
+                    <h2>Iniciar Sesión</h2>
+                    <div class="social-networks">
+                        <ion-icon name="logo-google"></ion-icon>
+                        <ion-icon name="logo-github"></ion-icon>
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                    </div>
+                    <span>O usa tu correo electrónico</span>
+                    <div class="container-input">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                    </div>
+                    <a href="#" id="forgotPassword">¿Olvidaste tu contraseña?</a>
+                    <button type="button" class="button" id="btnLogin">INICIAR SESIÓN</button>
+                </form>
+            </div>
+
+            <!-- Formulario Registrarse - ACTUALIZADO -->
+            <div class="container-form">
+                <form class="sign-up" id="registerFormElement">
+                    <h2>Registrarse</h2>
+                    <div class="social-networks">
+                        <ion-icon name="logo-google"></ion-icon>
+                        <ion-icon name="logo-github"></ion-icon>
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                    </div>
+                    <span>Completa tus datos personales</span>
+                    <div class="container-input">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input type="text" id="regNombre" placeholder="Nombre" required>
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input type="text" id="regApellido" placeholder="Apellido" required>
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="card-outline"></ion-icon>
+                        <input type="text" id="regCedula" placeholder="Cédula" required>
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="call-outline"></ion-icon>
+                        <input type="text" id="regNumero" placeholder="Número de teléfono" required>
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="location-outline"></ion-icon>
+                        <input type="text" id="regCiudad" placeholder="Ciudad" required>
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        <input type="email" id="regEmail" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" id="regPassword" placeholder="Contraseña" required>
+                    </div>
+                    <button type="button" class="button" id="btnRegister">REGISTRARSE</button>
+                </form>
+            </div>
+
+            <!-- Panel de bienvenida -->
+            <div class="container-welcome">
+                <div class="welcome welcome-sign-up">
+                    <h3>¡Bienvenido!</h3>
+                    <p>Regístrate para acceder al Analizador IA y al Foro Comunitario</p>
+                    <p style="font-size: 12px; margin-top: 10px;">⚠️ Los usuarios deben ser verificados por el administrador para publicar en el foro</p>
+                    <button class="button" id="btnSignUp">Registrarse</button>
+                </div>
+                <div class="welcome welcome-sign-in">
+                    <h3>¡Hola de nuevo!</h3>
+                    <p>Inicia sesión para continuar</p>
+                    <button class="button" id="btnSignIn">Iniciar sesión</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección informativa -->
+        <div class="info-section">
+            <div class="info-card">
+                <div class="info-icon">🤖</div>
+                <h4>Analizador IA</h4>
+                <p>Analiza textos políticos con inteligencia artificial avanzada</p>
+                <small style="color: #667eea;">⚠️ 3 consultas gratis sin registro</small>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">💬</div>
+                <h4>Foro Comunitario</h4>
+                <p>Lee análisis y debates políticos</p>
+                <small style="color: #667eea;">🔒 Solo usuarios verificados pueden publicar</small>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">🔐</div>
+                <h4>Verificación</h4>
+                <p>Cuentas verificadas por administrador</p>
+                <small style="color: #667eea;">✅ Seguridad y confianza</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla principal después del login -->
+    <div id="mainAppScreen" class="main-app" style="display: none;">
+        <div class="app-header">
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="chat">
+                    <span class="tab-icon">🤖</span>
+                    <span>Analizador IA</span>
+                </button>
+                <button class="tab-btn" data-tab="foro">
+                    <span class="tab-icon">💬</span>
+                    <span>Foro Comunitario</span>
+                </button>
+            </div>
+            <div class="user-info">
+                <span id="userNameDisplay"></span>
+                <span id="userRolBadge" class="rol-badge"></span>
+                <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
+            </div>
+        </div>
+        
+        <div id="dynamicContent" class="dynamic-content">
+            <div class="loading-spinner">Cargando...</div>
+        </div>
+    </div>
+
+    <!-- Sistema de notificaciones flotantes -->
+    <div id="notificationToast" class="notification-toast" style="display: none;">
+        <div class="toast-content">
+            <span class="toast-icon">🔔</span>
+            <div class="toast-message"></div>
+        </div>
+        <div class="toast-actions"></div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/chat.js"></script>
+    <script src="/static/js/foro.js"></script>
+</body>
+</html>
