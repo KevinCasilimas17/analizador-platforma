@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <!-- Pantalla de autenticación -->
+    <!-- Pantalla de autenticación (se muestra solo si NO hay sesión) -->
     <div id="authScreen" class="auth-container">
         <div class="container" id="container">
             <!-- Formulario Iniciar Sesión -->
@@ -114,28 +114,102 @@
         </div>
     </div>
 
-    <!-- Pantalla principal después del login -->
-    <div id="mainAppScreen" class="main-app" style="display: none;">
-        <div class="app-header">
-            <div class="tabs-container">
-                <button class="tab-btn active" data-tab="chat">
-                    <span class="tab-icon">🤖</span>
-                    <span>Analizador IA</span>
-                </button>
-                <button class="tab-btn" data-tab="foro">
-                    <span class="tab-icon">💬</span>
-                    <span>Foro Comunitario</span>
+    <!-- ==================== PANTALLA PRINCIPAL CON SIDEBAR (NUEVA ESTRUCTURA) ==================== -->
+    <div id="mainAppScreen" class="app-container" style="display: none;">
+        
+        <!-- SIDEBAR IZQUIERDA (estilo ChatGPT) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">🧠</span>
+                    <span class="logo-text">Analizador IA</span>
+                </div>
+            </div>
+            
+            <!-- Botón nuevo análisis (solo visible en chat) -->
+            <button id="newChatBtn" class="new-chat-btn" onclick="iniciarNuevoChat()">
+                <span>+</span> Nuevo análisis
+            </button>
+            
+            <!-- Historial de chats (se llena con JS) -->
+            <div id="chatHistory" class="chat-history">
+                <!-- Se llena dinámicamente con el historial del usuario -->
+            </div>
+            
+            <!-- Footer del sidebar: info usuario y botón login/logout -->
+            <div class="sidebar-footer">
+                <div id="userInfoSidebar" class="user-info-sidebar">
+                    <!-- Se llena dinámicamente -->
+                </div>
+                <button id="loginSidebarBtn" class="login-sidebar-btn" onclick="abrirModalLogin()">
+                    <span>🔐</span> Iniciar sesión
                 </button>
             </div>
-            <div class="user-info">
-                <span id="userNameDisplay"></span>
-                <span id="userRolBadge" class="rol-badge"></span>
-                <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
+        </aside>
+        
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+            <!-- Header superior con navegación -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <span id="currentModuleTitle" class="module-title">Analizador IA</span>
+                </div>
+                <div class="header-right">
+                    <button id="foroHeaderBtn" class="header-btn" onclick="cambiarModulo('foro')">
+                        💬 Foro
+                    </button>
+                    <button id="chatHeaderBtn" class="header-btn active" onclick="cambiarModulo('chat')">
+                        🤖 Analizador IA
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Contenido dinámico (chat o foro) -->
+            <div id="dynamicContent" class="dynamic-content">
+                <div class="loading-spinner">Cargando...</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL LOGIN (si se abre desde el sidebar) -->
+    <div id="modalLogin" class="modal-login" style="display: none;">
+        <div class="modal-login-content">
+            <div class="modal-login-header">
+                <h3>Iniciar sesión</h3>
+                <button class="modal-close" onclick="cerrarModalLogin()">✖</button>
+            </div>
+            <div class="modal-login-body">
+                <input type="email" id="modalLoginEmail" placeholder="Correo electrónico">
+                <input type="password" id="modalLoginPassword" placeholder="Contraseña">
+                <button class="modal-login-btn" onclick="loginDesdeModal()">Ingresar</button>
+                <p class="modal-register-link">
+                    ¿No tienes cuenta? <a href="#" onclick="mostrarModalRegistro()">Regístrate</a>
+                </p>
             </div>
         </div>
-        
-        <div id="dynamicContent" class="dynamic-content">
-            <div class="loading-spinner">Cargando...</div>
+    </div>
+
+    <!-- MODAL REGISTRO -->
+    <div id="modalRegister" class="modal-login" style="display: none;">
+        <div class="modal-login-content">
+            <div class="modal-login-header">
+                <h3>Registrarse</h3>
+                <button class="modal-close" onclick="cerrarModalRegistro()">✖</button>
+            </div>
+            <div class="modal-login-body">
+                <input type="text" id="modalRegNombre" placeholder="Nombre">
+                <input type="text" id="modalRegApellido" placeholder="Apellido">
+                <input type="text" id="modalRegCedula" placeholder="Cédula">
+                <input type="text" id="modalRegNumero" placeholder="Número de teléfono">
+                <input type="text" id="modalRegCiudad" placeholder="Ciudad">
+                <input type="email" id="modalRegEmail" placeholder="Correo electrónico">
+                <input type="password" id="modalRegPassword" placeholder="Contraseña">
+                <button class="modal-login-btn" onclick="registrarDesdeModal()">Registrarse</button>
+                <p class="modal-register-link">
+                    ¿Ya tienes cuenta? <a href="#" onclick="mostrarModalLogin()">Inicia sesión</a>
+                </p>
+            </div>
         </div>
     </div>
 

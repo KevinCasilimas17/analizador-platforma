@@ -91,6 +91,20 @@ class AnalisisNoRegistrado(Base):
     resultado_analisis = Column(Text, nullable=False)
     fecha = Column(DateTime, default=datetime.utcnow)
 
+# Al final de las definiciones de modelos, agrega:
+
+class TokenVerificacion(Base):
+    __tablename__ = "tokens_verificacion"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    usuario_id = Column(Integer, ForeignKey("usuarios.id"), nullable=False)
+    token = Column(String, unique=True, nullable=False)
+    creado = Column(DateTime, default=datetime.utcnow)
+    expira = Column(DateTime, default=lambda: datetime.utcnow() + timedelta(days=1))
+
+# También agrega el import de timedelta al inicio:
+from datetime import datetime, timedelta
+
 
 # ==================== FUNCIONES DE UTILIDAD ====================
 

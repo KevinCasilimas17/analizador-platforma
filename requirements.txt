@@ -8,3 +8,4 @@ jinja2
 psycopg2-binary
 sqlalchemy==2.0.25
 alembic==1.13.0
+email-validator==2.1.1

@@ -67,12 +67,18 @@ async function enviarMensaje() {
         
         if (data.limite_alcanzado) {
             agregarMensaje("bot", data.resultado);
-            // Mostrar notificación de registro
+            // Mostrar notificación de registro usando modales nuevos
             if (typeof mostrarNotificacion === 'function') {
                 mostrarNotificacion(
-                    '⚠️ Has alcanzado el límite de consultas gratuitas. Regístrate para obtener consultas ilimitadas.',
+                    '⚠️ Has alcanzado el límite de consultas gratuitas (3 por día). Regístrate para obtener consultas ilimitadas.',
                     [
-                        { texto: 'Registrarse', callback: () => document.getElementById('btnSignUp').click() },
+                        { texto: 'Registrarse', callback: () => {
+                            if (typeof abrirModalRegistro === 'function') {
+                                abrirModalRegistro();
+                            } else {
+                                document.getElementById('btnSignUp')?.click();
+                            }
+                        } },
                         { texto: 'Seguir leyendo', callback: () => {} }
                     ]
                 );
@@ -81,7 +87,7 @@ async function enviarMensaje() {
             agregarMensaje("bot", data.resultado);
             
             if (data.consultas_restantes !== null && !usuarioActual) {
-                agregarMensaje("bot", `ℹ️ Te quedan ${data.consultas_restantes} consultas gratis hoy. <a href="#" onclick="document.getElementById('btnSignUp').click(); return false;">Regístrate</a> para consultas ilimitadas.`);
+                agregarMensaje("bot", `ℹ️ Te quedan ${data.consultas_restantes} consultas gratis hoy. <a href="#" onclick="if(typeof abrirModalRegistro === 'function'){ abrirModalRegistro(); } else { document.getElementById('btnSignUp')?.click(); } return false;">Regístrate</a> para consultas ilimitadas.`);
             }
         }
         
@@ -99,6 +105,7 @@ async function enviarMensaje() {
 
 function agregarMensaje(tipo, contenido) {
     const chat = document.getElementById("chat");
+    if (!chat) return;
     const div = document.createElement("div");
     div.className = tipo === "user" ? "user-message" : "bot-message";
     div.innerHTML = contenido.replace(/\n/g, "<br>");

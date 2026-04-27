@@ -8,12 +8,16 @@ async function cargarPosts() {
         renderizarPosts(posts);
     } catch (error) {
         console.error("Error cargando posts:", error);
-        document.getElementById("listaPosts").innerHTML = '<div class="error">Error al cargar las publicaciones</div>';
+        const listaPosts = document.getElementById("listaPosts");
+        if (listaPosts) {
+            listaPosts.innerHTML = '<div class="error">Error al cargar las publicaciones</div>';
+        }
     }
 }
 
 function renderizarPosts(posts) {
     const container = document.getElementById("listaPosts");
+    if (!container) return;
     
     if (posts.length === 0) {
         container.innerHTML = '<div class="no-posts">No hay publicaciones aún. ¡Sé el primero en publicar!</div>';
@@ -47,8 +51,20 @@ function mostrarFormularioPost() {
             mostrarNotificacion(
                 '🔒 Debes iniciar sesión para publicar en el foro',
                 [
-                    { texto: 'Iniciar sesión', callback: () => document.getElementById('btnSignIn').click() },
-                    { texto: 'Registrarse', callback: () => document.getElementById('btnSignUp').click() },
+                    { texto: 'Iniciar sesión', callback: () => {
+                        if (typeof abrirModalLogin === 'function') {
+                            abrirModalLogin();
+                        } else {
+                            document.getElementById('btnSignIn')?.click();
+                        }
+                    } },
+                    { texto: 'Registrarse', callback: () => {
+                        if (typeof abrirModalRegistro === 'function') {
+                            abrirModalRegistro();
+                        } else {
+                            document.getElementById('btnSignUp')?.click();
+                        }
+                    } },
                     { texto: 'Seguir leyendo', callback: () => {} }
                 ]
             );
@@ -83,8 +99,8 @@ function mostrarFormularioPost() {
 }
 
 async function crearPost() {
-    const titulo = document.getElementById("postTitulo").value;
-    const contenido = document.getElementById("postContenido").value;
+    const titulo = document.getElementById("postTitulo")?.value;
+    const contenido = document.getElementById("postContenido")?.value;
     
     if (!titulo || !contenido) {
         alert("Completa todos los campos");
@@ -154,7 +170,7 @@ async function verPost(postId) {
                             </div>
                         ` : `
                             <div class="warning-box">
-                                <p>🔒 <a href="#" onclick="document.getElementById('btnSignUp').click(); return false;">Inicia sesión</a> y sé verificado para comentar.</p>
+                                <p>🔒 <a href="#" onclick="if(typeof abrirModalLogin === 'function'){ abrirModalLogin(); } else { document.getElementById('btnSignUp')?.click(); } return false;">Inicia sesión</a> y sé verificado para comentar.</p>
                             </div>
                         `}
                     </div>
@@ -183,7 +199,7 @@ async function verPost(postId) {
 }
 
 async function agregarComentario(postId) {
-    const contenido = document.getElementById("comentarioContenido").value;
+    const contenido = document.getElementById("comentarioContenido")?.value;
     if (!contenido) {
         alert("Escribe un comentario");
         return;
@@ -218,8 +234,20 @@ async function darLike(postId) {
             mostrarNotificacion(
                 '🔒 Debes iniciar sesión para dar like',
                 [
-                    { texto: 'Iniciar sesión', callback: () => document.getElementById('btnSignIn').click() },
-                    { texto: 'Registrarse', callback: () => document.getElementById('btnSignUp').click() }
+                    { texto: 'Iniciar sesión', callback: () => {
+                        if (typeof abrirModalLogin === 'function') {
+                            abrirModalLogin();
+                        } else {
+                            document.getElementById('btnSignIn')?.click();
+                        }
+                    } },
+                    { texto: 'Registrarse', callback: () => {
+                        if (typeof abrirModalRegistro === 'function') {
+                            abrirModalRegistro();
+                        } else {
+                            document.getElementById('btnSignUp')?.click();
+                        }
+                    } }
                 ]
             );
         }
@@ -233,6 +261,11 @@ async function darLike(postId) {
         
         if (response.ok) {
             cargarPosts();
+            // Si el modal de detalle está abierto, actualizarlo
+            const modalAbierto = document.querySelector('.modal-overlay');
+            if (modalAbierto) {
+                verPost(postId);
+            }
         } else {
             const error = await response.json();
             alert("Error: " + error.detail);
